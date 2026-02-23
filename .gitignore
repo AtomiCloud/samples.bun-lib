@@ -1,0 +1,4 @@
+.kagent/
+node_modules/
+.npm/
+.pre-commit-config.yaml
