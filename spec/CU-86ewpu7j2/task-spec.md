@@ -1,0 +1,284 @@
+# Task Specification: Create sample Bun Library template (CU-86ewpu7j2)
+
+## Source
+
+- Ticket: CU-86ewpu7j2
+- System: ClickUp
+- URL: https://app.clickup.com/t/86ewpu7j2
+- Parent: [Bun Library Template](https://app.clickup.com/t/86ewpk8wf)
+- Reference: [imine/boron](https://github.com/AtomiCloud/imine.boron) - Bun library testing/CI patterns
+- Reference: [sulfone/helium](https://github.com/AtomiCloud/sulfone.helium) - npm release process (adapted for Bun)
+
+## Objective
+
+Create a fully functional, production-ready Bun (TypeScript) library template that can be published to npm and used by other projects. This template will serve as the reference implementation before CyanPrint automation is ready, ensuring all requirements work as expected.
+
+**Reference Implementations**:
+
+- Port testing/CI patterns from `~/Workspace/atomi/runbook/platforms/imine/boron/`
+- Port release/publishing patterns from `~/Workspace/atomi/runbook/platforms/sulfone/helium/sdks/node/` (adapted for Bun bundler instead of tsup)
+
+## Acceptance Criteria
+
+### Project Structure (from boron reference)
+
+- [ ] `src/lib/` - Pure library code (structures, interfaces, services)
+- [ ] `src/index.ts` - Library entry point with exports
+- [ ] `test/unit/` - Unit tests with 100% coverage requirement
+- [ ] `test/int/` - Integration tests (if adapters needed) with 80% coverage
+- [ ] `test/fixtures/` - Test fixtures and mock implementations
+- [ ] `scripts/test.sh` - Test runner with CLI-style flags
+- [ ] `scripts/ci/test.sh` - CI test script with coverage threshold check
+- [ ] `scripts/ci/build.sh` - CI build script
+- [ ] `scripts/ci/publish.sh` - npm publishing script (from helium pattern)
+- [ ] `tasks/test.tasks.yaml` - Test-related tasks (included in main Taskfile)
+- [ ] `bunfig.unit.toml` - Unit test coverage configuration
+- [ ] `bunfig.int.toml` - Integration test coverage configuration (if adapters needed)
+
+### Library Architecture (from boron patterns)
+
+- [ ] `src/lib/structures.ts` - Pure data structures (immutable interfaces)
+- [ ] `src/lib/interfaces.ts` - Interfaces for impure dependencies (if needed)
+- [ ] `src/lib/services.ts` - Stateless service classes with DI
+- [ ] `src/lib/index.ts` - Library exports
+
+### Code Quality
+
+- [ ] Linting enforced via pre-commit hooks (biome)
+- [ ] Formatting enforced via treefmt (biome, prettier)
+- [ ] Dead code detection via knip
+- [ ] No lint/type errors
+
+### Testing & Coverage
+
+- [ ] Unit tests with 100% coverage threshold
+- [ ] Integration tests with 80% coverage (only if adapters/external interfaces needed)
+- [ ] Code coverage reporting with lcov output
+- [ ] Coverage badge in README
+- [ ] Coverage configuration in `bunfig.unit.toml` and `bunfig.int.toml`
+
+### Build & Module Formats (from helium pattern, adapted for Bun)
+
+- [ ] Build configuration using Bun bundler:
+  - ESM output: `dist/index.js`
+  - CommonJS output: `dist/index.cjs`
+- [ ] TypeScript declaration files (.d.ts) generated
+- [ ] Source maps generated
+- [ ] Build task in Taskfile
+- [ ] `package.json` with proper exports:
+  ```json
+  {
+    "main": "./dist/index.cjs",
+    "module": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "exports": {
+      ".": {
+        "import": "./dist/index.js",
+        "require": "./dist/index.cjs",
+        "types": "./dist/index.d.ts"
+      }
+    }
+  }
+  ```
+
+### CI/CD (from boron reference)
+
+- [ ] CI workflow runs: pre-commit → unit tests (100%) → int tests (80%) → build
+- [ ] Update `.github/workflows/ci.yaml` to match boron pattern
+- [ ] Create `⚡reusable-test.yaml` workflow for test execution
+- [ ] Security/dependency scanning in CI (via pre-commit hooks)
+- [ ] Automated publishing to npm via semantic-release
+- [ ] Uses existing `atomi_release.yaml` configuration
+
+### Release & Publishing (Bun-native approach)
+
+- [ ] `scripts/ci/publish.sh` - npm publishing script using Bun:
+  - Requires `NPM_API_KEY` environment variable
+  - Uses Bun for dependency installation (`bun install`)
+  - Generates `.npmrc` with authentication
+  - Builds with Bun bundler (`bun build`)
+  - Publishes with Bun (`bun publish --access public`)
+- [ ] Semantic release integration via `atomi_release.yaml`
+- [ ] Version update on release commits
+
+### Documentation
+
+- [ ] Comprehensive README with:
+  - Installation instructions
+  - Usage examples
+  - API documentation link
+  - Coverage badge
+  - License badge
+- [ ] LICENSE file (MIT)
+- [ ] Follows AtomiCloud documentation framework
+
+### Package Configuration
+
+- [ ] Package name: `@atomicloud/samples-bun-lib`
+- [ ] Proper npm metadata:
+  - name, version, description
+  - keywords, author, license
+  - repository, bugs, homepage
+- [ ] Export maps for ESM and CJS
+- [ ] Proper `types` field for TypeScript support
+- [ ] `files` field pointing to `dist/`
+
+## Definition of Done
+
+- [ ] All acceptance criteria met
+- [ ] Tests pass (unit 100%, int 80% if applicable)
+- [ ] No lint/type errors
+- [ ] Build succeeds for ESM and CJS formats
+- [ ] CI pipeline passes
+- [ ] PR ready for review
+- [ ] Ticket ID (CU-86ewpu7j2) included in commits
+
+### Skill Validation (MANDATORY)
+
+All code must be checked against ALL skills in `.claude/skills/` and ensure rules are correctly applied:
+
+| Skill                       | Validation Required                                            |
+| --------------------------- | -------------------------------------------------------------- |
+| `/ci-cd-workflows`          | GitHub Actions workflows follow patterns                       |
+| `/conventional-commits`     | Commit messages follow conventions                             |
+| `/deadcode`                 | No unused code detected by knip                                |
+| `/domain-modeling`          | Data structures follow Record/Principal/AggregateRoot patterns |
+| `/error-handling`           | Result types for fallible operations                           |
+| `/infisical`                | Secrets management setup (if needed)                           |
+| `/linting`                  | Code passes linting rules                                      |
+| `/nix`                      | Flake configuration correct                                    |
+| `/semantic-release`         | Release config follows conventions                             |
+| `/service-tree`             | Service naming follows LPSM conventions                        |
+| `/shell-conventions`        | Shell scripts follow conventions                               |
+| `/stateless-oop-di`         | Services are stateless with DI                                 |
+| `/taskfile-conventions`     | Taskfile follows conventions                                   |
+| `/testing`                  | Tests follow 5-level testing convention                        |
+| `/three-layer-architecture` | Controller → Domain → Repo separation                          |
+
+## Out of Scope
+
+- CyanPrint automation (handled by separate ticket)
+- Publishing to npm (manual trigger after PR merge)
+- UMD/AMD module formats (legacy, rarely used - focus on ESM + CJS)
+- CLI binary compilation (this is a library, not a CLI tool)
+- TypeDoc API documentation (can be added later)
+
+## Technical Constraints
+
+### Existing Infrastructure (Preserve)
+
+- **Nix flake** - Already configured with bun, biome, gitlint, shellcheck, treefmt
+- **Pre-commit hooks** - Already configured via nix
+- **Semantic release** - `atomi_release.yaml` already exists
+- **GitHub workflows** - CI, CD, release workflows already exist
+- **Claude skills** - All 15 skills in `.claude/skills/`
+
+### Build Tool
+
+- Use Bun's build system: `bun build` for library output
+- Output to `dist/` directory with ESM and CJS formats
+- Generate declaration files with `tsc --emitDeclarationOnly` or Bun's dts support
+
+### Testing Framework
+
+- Use Bun's built-in test runner (`bun test`)
+- Coverage via `bun test --coverage`
+- Test runner script pattern from boron: `./scripts/test.sh [unit|int] [--cover] [--watch]`
+
+### Code Style
+
+- Follow boron's architecture: structures → interfaces → services
+- Pure code in `src/lib/`, no side effects
+- Stateless services with constructor injection
+
+## Context
+
+### User Clarifications
+
+1. **Library type**: A real library to be published and used - no restrictions on functionality
+2. **Package scope**: `@atomicloud/` (lowercase)
+3. **Module formats**: ESM + CJS (no UMD/AMD)
+4. **Coverage requirements**: Unit tests 100%, Integration tests 80% (if adapters needed)
+5. **Reference projects**: Port from boron (testing/CI) + helium (release/publishing, adapted for Bun)
+6. **Integration tests**: Include bunfig.int.toml - only needed if adapters are used
+
+### Reference: Project Patterns to Port
+
+```
+boron/                              →  samples-bun-lib/
+├── src/lib/                        →  src/lib/
+│   ├── structures.ts               →  structures.ts (pure data)
+│   ├── interfaces.ts               →  interfaces.ts (DI contracts, if needed)
+│   ├── services.ts                 →  services.ts (stateless logic)
+│   └── index.ts                    →  index.ts (exports)
+├── test/unit/                      →  test/unit/
+├── test/int/                       →  test/int/ (if adapters needed)
+├── test/fixtures/                  →  test/fixtures/
+├── scripts/test.sh                 →  scripts/test.sh
+├── scripts/ci/test.sh              →  scripts/ci/test.sh
+├── scripts/ci/build.sh             →  scripts/ci/build.sh
+├── tasks/test.tasks.yaml           →  tasks/test.tasks.yaml
+├── bunfig.unit.toml                →  bunfig.unit.toml
+└── bunfig.int.toml                 →  bunfig.int.toml
+
+helium/sdks/node/                   →  samples-bun-lib/
+├── package.json (exports pattern)  →  package.json (adapted)
+└── scripts/publish.sh              →  scripts/ci/publish.sh (adapted for Bun)
+```
+
+### Current State
+
+The project skeleton already exists with:
+
+- Basic `package.json` (knip only)
+- Nix flake with dev shell
+- Pre-commit hooks
+- Taskfile (minimal)
+- Semantic release config
+- GitHub workflows (basic)
+- Claude skills for development standards
+- Documentation framework
+
+**Missing** (to be implemented):
+
+- `src/lib/` directory with library code
+- `test/unit/` and `test/int/` directories with tests
+- `test/fixtures/` directory with test mocks
+- `scripts/test.sh` and `scripts/ci/` scripts
+- `tasks/test.tasks.yaml` test tasks
+- `bunfig.unit.toml` and `bunfig.int.toml` test configurations
+- Updated `package.json` with proper exports
+- README and LICENSE
+- Updated CI workflows
+
+---
+
+## Domain-Driven Design
+
+### Bounded Context(s)
+
+- **Primary Context:** Library Template — Reusable patterns and conventions for Bun libraries
+
+### Ubiquitous Language
+
+| Term                 | Definition                                         |
+| -------------------- | -------------------------------------------------- |
+| **Structure**        | Pure data interface - immutable, no behavior       |
+| **Interface**        | Contract for impure/stateful dependencies          |
+| **Service**          | Stateless class with business logic, uses DI       |
+| **Fixture**          | Test double/mock for testing pure code             |
+| **Module Format**    | Output format for compiled code (ESM, CJS)         |
+| **Coverage**         | Percentage of code executed by tests               |
+| **Declaration File** | TypeScript `.d.ts` file describing type signatures |
+| **Export Map**       | `package.json` field mapping import paths to files |
+
+### Implementation Patterns
+
+Follow the existing skills in `.claude/skills/`:
+
+1. **Domain Modeling** (`/domain-modeling`): Use Structures for data containers
+2. **Stateless OOP DI** (`/stateless-oop-di`): Stateless services with constructor injection
+3. **Error Handling** (`/error-handling`): Use Result types for fallible operations
+4. **Testing** (`/testing`): Follow the 5-level testing convention
+5. **Shell Conventions** (`/shell-conventions`): Scripts use `set -eou pipefail`
+6. **Taskfile Conventions** (`/taskfile-conventions`): Include pattern for test tasks
