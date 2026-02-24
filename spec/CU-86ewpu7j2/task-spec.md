@@ -25,7 +25,7 @@ Create a fully functional, production-ready Bun (TypeScript) library template th
 - [ ] `src/lib/` - Pure library code (structures, interfaces, services)
 - [ ] `src/index.ts` - Library entry point with exports
 - [ ] `test/unit/` - Unit tests with 100% coverage requirement
-- [ ] `test/int/` - Integration tests (if adapters needed) with 80% coverage
+- [ ] `test/int/` - Integration tests with 80% coverage (required for template)
 - [ ] `test/fixtures/` - Test fixtures and mock implementations
 - [ ] `scripts/test.sh` - Test runner with CLI-style flags
 - [ ] `scripts/ci/test.sh` - CI test script with coverage threshold check
@@ -33,7 +33,7 @@ Create a fully functional, production-ready Bun (TypeScript) library template th
 - [ ] `scripts/ci/publish.sh` - npm publishing script (from helium pattern)
 - [ ] `tasks/test.tasks.yaml` - Test-related tasks (included in main Taskfile)
 - [ ] `bunfig.unit.toml` - Unit test coverage configuration
-- [ ] `bunfig.int.toml` - Integration test coverage configuration (if adapters needed)
+- [ ] `bunfig.int.toml` - Integration test coverage configuration
 
 ### Library Architecture (from boron patterns)
 
@@ -52,7 +52,7 @@ Create a fully functional, production-ready Bun (TypeScript) library template th
 ### Testing & Coverage
 
 - [ ] Unit tests with 100% coverage threshold
-- [ ] Integration tests with 80% coverage (only if adapters/external interfaces needed)
+- [ ] Integration tests with 80% coverage (required)
 - [ ] Code coverage reporting with lcov output
 - [ ] Coverage badge in README
 - [ ] Coverage configuration in `bunfig.unit.toml` and `bunfig.int.toml`
@@ -126,7 +126,7 @@ Create a fully functional, production-ready Bun (TypeScript) library template th
 ## Definition of Done
 
 - [ ] All acceptance criteria met
-- [ ] Tests pass (unit 100%, int 80% if applicable)
+- [ ] Tests pass (unit 100%, int 80%)
 - [ ] No lint/type errors
 - [ ] Build succeeds for ESM and CJS formats
 - [ ] CI pipeline passes
@@ -198,9 +198,9 @@ All code must be checked against ALL skills in `.claude/skills/` and ensure rule
 1. **Library type**: A real library to be published and used - no restrictions on functionality
 2. **Package scope**: `@atomicloud/` (lowercase)
 3. **Module formats**: ESM + CJS (no UMD/AMD)
-4. **Coverage requirements**: Unit tests 100%, Integration tests 80% (if adapters needed)
+4. **Coverage requirements**: Unit tests 100%, Integration tests 80% (required)
 5. **Reference projects**: Port from boron (testing/CI) + helium (release/publishing, adapted for Bun)
-6. **Integration tests**: Include bunfig.int.toml - only needed if adapters are used
+6. **Integration tests**: Required - create test/int/ with at least placeholder tests
 
 ### Reference: Project Patterns to Port
 
@@ -212,7 +212,7 @@ boron/                              →  samples-bun-lib/
 │   ├── services.ts                 →  services.ts (stateless logic)
 │   └── index.ts                    →  index.ts (exports)
 ├── test/unit/                      →  test/unit/
-├── test/int/                       →  test/int/ (if adapters needed)
+├── test/int/                       →  test/int/ (required)
 ├── test/fixtures/                  →  test/fixtures/
 ├── scripts/test.sh                 →  scripts/test.sh
 ├── scripts/ci/test.sh              →  scripts/ci/test.sh

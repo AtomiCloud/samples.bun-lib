@@ -1,20 +1,35 @@
 version: '3'
 
+includes:
+  test: tasks/test.tasks.yaml
+
 tasks:
   setup:
     desc: 'Setup the repository'
-    cmds: #
+    cmds:
       - bun install
-      #
-      #
+
+  build:
+    desc: 'Build library (ESM + CJS)'
+    cmds:
+      - ./scripts/ci/build.sh
+
+  clean:
+    desc: 'Clean build artifacts and dependencies'
+    cmds:
+      - rm -rf dist node_modules coverage
+
   lint:
     desc: Lints the whole code-base
     cmds:
       - pre-commit run --all
-  #
+
   deadcode:
     desc: 'Find code only used by tests or not used at all (requires verification)'
-    cmds: #
+    cmds:
       - bun knip --include classMembers,types
-      #
-  #
+
+  test:
+    desc: 'Run all tests (unit)'
+    cmds:
+      - task: test:test

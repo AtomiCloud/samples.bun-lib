@@ -11,5 +11,34 @@ jobs:
     with:
       atomi_platform: samples
       atomi_service: bun-lib
-  #
-  #
+
+  test-unit:
+    name: Unit Tests
+    uses: ./.github/workflows/⚡reusable-test.yaml
+    secrets: inherit
+    needs: [precommit]
+    with:
+      atomi_platform: samples
+      atomi_service: bun-lib
+      test_type: unit
+      coverage_target: '100'
+
+  test-int:
+    name: Integration Tests
+    uses: ./.github/workflows/⚡reusable-test.yaml
+    secrets: inherit
+    needs: [precommit]
+    with:
+      atomi_platform: samples
+      atomi_service: bun-lib
+      test_type: int
+      coverage_target: '80'
+
+  build:
+    name: Build Library
+    uses: ./.github/workflows/⚡reusable-build.yaml
+    secrets: inherit
+    needs: [precommit, test-unit, test-int]
+    with:
+      atomi_platform: samples
+      atomi_service: bun-lib
