@@ -1,7 +1,7 @@
 # @atomicloud/samples-bun-lib
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)](#)
+[![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)](https://github.com/atomicloud/samples-bun-lib)
 
 A production-ready Bun (TypeScript) library template demonstrating best practices for library development.
 
@@ -133,7 +133,7 @@ const logger = new ConsoleLogger();
 const configProvider = new EnvConfigProvider();
 const config = new ConfigService(configProvider);
 const calculator = new CalculatorService();
-const stringService = new StringService(logger, undefined);
+const stringService = new StringService(logger);
 const library = new LibraryService(calculator, stringService, config, logger);
 ```
 
@@ -202,7 +202,7 @@ task lint
 
 ## Project Structure
 
-```
+```text
 src/
   lib/
     structures.ts    # Pure data structures

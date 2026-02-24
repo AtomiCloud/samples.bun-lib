@@ -138,29 +138,23 @@ describe('MockCacheAdapter', () => {
   });
 
   describe('TTL support', () => {
-    it('should expire values after TTL', () => {
+    it('should expire values after TTL', async () => {
       cache.set('key', 'value', 10); // 10ms TTL
 
       expect(cache.get('key')).toBe('value');
 
-      // Wait for expiry
-      const start = Date.now();
-      while (Date.now() - start < 20) {
-        // busy wait
-      }
+      // Wait for expiry using Bun.sleep instead of busy-wait
+      await Bun.sleep(20);
 
       expect(cache.get('key')).toBeUndefined();
     });
 
-    it('has should return false for expired values', () => {
+    it('has should return false for expired values', async () => {
       cache.set('key', 'value', 10);
 
       expect(cache.has('key')).toBe(true);
 
-      const start = Date.now();
-      while (Date.now() - start < 20) {
-        // busy wait
-      }
+      await Bun.sleep(20);
 
       expect(cache.has('key')).toBe(false);
     });

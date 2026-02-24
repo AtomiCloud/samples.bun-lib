@@ -133,6 +133,12 @@ describe('StringService', () => {
       it('should handle palindrome', () => {
         expect(service.reverse('racecar')).toBe('racecar');
       });
+
+      it('should handle Unicode surrogate pairs correctly', () => {
+        // Emoji and CJK characters use surrogate pairs
+        expect(service.reverse('Hello 🌍')).toBe('🌍 olleH');
+        expect(service.reverse('你好世界')).toBe('界世好你');
+      });
     });
 
     describe('isPalindrome', () => {
@@ -192,6 +198,12 @@ describe('StringService', () => {
       it('should handle exact length', () => {
         expect(service.truncate('hello', 5)).toBe('hello');
       });
+
+      it('should handle suffix longer than or equal to maxLength', () => {
+        // When suffix.length >= maxLength, return truncated text without suffix
+        expect(service.truncate('hello world', 3, '...')).toBe('hel');
+        expect(service.truncate('hello world', 2, '...')).toBe('he');
+      });
     });
   });
 
@@ -219,13 +231,15 @@ describe('StringService', () => {
   });
 
   describe('with cache', () => {
-    it('should accept cache dependency', () => {
+    it('should accept cache dependency (reserved for future use)', () => {
       // Arrange
       const cache = createMockCache();
       const service = new StringService(undefined, cache);
 
       // Act & Assert - should not throw
       expect(() => service.process({ text: 'test' })).not.toThrow();
+      // Note: Cache is currently not used - reserved for future caching support
+      expect(cache.size()).toBe(0);
     });
   });
 });

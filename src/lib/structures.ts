@@ -74,5 +74,6 @@ export interface StringProcessOptions {
 export interface StringProcessOutput {
   readonly original: string;
   readonly processed: string;
+  /** The length of the processed string (in UTF-16 code units) */
   readonly length: number;
 }

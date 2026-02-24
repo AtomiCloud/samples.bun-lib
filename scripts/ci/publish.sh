@@ -16,6 +16,8 @@ rm .npmrc || true
 echo "//registry.npmjs.org/:_authToken=${NPM_API_KEY}" >.npmrc
 echo "registry=https://registry.npmjs.org/" >>.npmrc
 echo "always-auth=true" >>.npmrc
+chmod 600 .npmrc
+trap 'rm -f .npmrc' EXIT
 echo "✅ .npmrc generated!"
 
 # Build package

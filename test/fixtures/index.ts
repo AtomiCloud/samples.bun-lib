@@ -111,6 +111,10 @@ export class MockCacheAdapter implements ICacheAdapter {
 
   /**
    * Get the number of cached items
+   *
+   * Note: This returns the internal Map size, which may include expired entries
+   * that have not yet been evicted. Expired entries are lazily evicted on
+   * access via get() or has() calls.
    */
   size(): number {
     return this.cache.size;

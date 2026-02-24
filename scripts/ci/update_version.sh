@@ -1,10 +1,9 @@
 #!/usr/bin/env bash
-
-version="$1"
-package_path="$2"
 set -eou pipefail
 
-[ "$package_path" = '' ] && package_path="./package.json"
+version="$1"
+package_path="${2:-./package.json}"
 
-jq --arg new_version "${version}" '.version = $new_version' "${package_path}" >tmp
-mv tmp "${package_path}"
+tmpfile=$(mktemp)
+jq --arg new_version "${version}" '.version = $new_version' "${package_path}" >"$tmpfile"
+mv "$tmpfile" "${package_path}"

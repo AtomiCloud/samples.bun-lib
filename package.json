@@ -1,6 +1,6 @@
 {
   "name": "@atomicloud/samples-bun-lib",
-  "version": "0.1.0",
+  "version": "9.9.9",
   "description": "Sample Bun Library Template - A production-ready TypeScript library template",
   "type": "module",
   "main": "./dist/index.cjs",

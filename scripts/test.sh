@@ -10,7 +10,7 @@ if [[ $TEST_TYPE != "unit" && $TEST_TYPE != "int" ]]; then
   echo "❌ Invalid test type: $TEST_TYPE. Must be 'unit' or 'int'"
   exit 1
 fi
-shift
+(($# > 0)) && shift
 
 # Test configuration
 COVER=false

@@ -7,7 +7,7 @@
  * - Pure data structures (structures.ts)
  * - Interface contracts for DI (interfaces.ts)
  * - Stateless services with DI (services.ts)
- * - 100% test coverage
+ * - Comprehensive test coverage
  * - ESM + CJS module support
  */
 

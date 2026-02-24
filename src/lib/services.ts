@@ -118,7 +118,8 @@ export class CalculatorService {
 export class StringService {
   constructor(
     private readonly logger?: ILoggerAdapter,
-    private readonly cache?: ICacheAdapter,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    private readonly cache?: ICacheAdapter, // Reserved for future caching support
   ) {}
 
   /**
@@ -172,7 +173,7 @@ export class StringService {
    * Reverse a string
    */
   public reverse(text: string): string {
-    return text.split('').reverse().join('');
+    return [...text].reverse().join('');
   }
 
   /**
@@ -199,6 +200,9 @@ export class StringService {
   public truncate(text: string, maxLength: number, suffix = '...'): string {
     if (text.length <= maxLength) {
       return text;
+    }
+    if (suffix.length >= maxLength) {
+      return text.slice(0, maxLength);
     }
     return text.slice(0, maxLength - suffix.length) + suffix;
   }

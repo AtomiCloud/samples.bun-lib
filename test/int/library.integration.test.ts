@@ -249,13 +249,13 @@ describe('Library Integration Tests', () => {
       expect(result).toBe('界世 olleH');
     });
 
-    it('should detect palindromes in various languages', () => {
+    it('should detect palindromes (ASCII examples)', () => {
       // Arrange
       const configProvider = createDefaultConfigProvider();
       const library = createLibraryService(configProvider);
       const str = library.getStringService();
 
-      // Act & Assert
+      // Act & Assert - Testing English/ASCII palindromes
       expect(str.isPalindrome('racecar')).toBe(true);
       expect(str.isPalindrome('A man a plan a canal Panama')).toBe(true);
       expect(str.isPalindrome('Was it a car or a cat I saw')).toBe(true);
