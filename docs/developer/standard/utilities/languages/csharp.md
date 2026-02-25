@@ -208,7 +208,7 @@ var message = $"Hello, {name}!";
 
 ```csharp
 var formatted = string.Format("{0:N2}", 1234.56); // "1,234.56"
-var formatted = $"{amount:C}"; // Currency format
+var asCurrency = $"{amount:C}"; // Currency format
 ```
 
 ## Aggregations

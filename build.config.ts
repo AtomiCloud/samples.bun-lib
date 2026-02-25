@@ -1,4 +1,4 @@
-await Promise.all([
+const results = await Promise.all([
   // ESM build
   Bun.build({
     entrypoints: ['./src/index.ts'],
@@ -18,5 +18,23 @@ await Promise.all([
     naming: 'index.cjs',
   }),
 ]);
+
+// Check for build failures
+let hasErrors = false;
+for (const result of results) {
+  if (!result.success) {
+    console.error('Build failed!');
+    hasErrors = true;
+  }
+  if (result.logs.length > 0) {
+    for (const log of result.logs) {
+      console.error(log.message);
+    }
+  }
+}
+
+if (hasErrors) {
+  process.exit(1);
+}
 
 console.log('Build complete!');

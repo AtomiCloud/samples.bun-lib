@@ -2,23 +2,14 @@
  * Unit tests for ConfigService
  */
 
-import { readFileSync } from 'node:fs';
-import { join } from 'node:path';
-import { fileURLToPath } from 'node:url';
-
 import { describe, expect, it, beforeEach } from 'bun:test';
 import { ConfigService } from '../../src/lib/services.ts';
-import { MockConfigProvider, createDefaultConfig, createDefaultConfigProvider } from '../fixtures/index.ts';
-
-/**
- * Get the library version from package.json for test consistency
- */
-function getPackageVersion(): string {
-  const dirname = fileURLToPath(new URL('.', import.meta.url));
-  const packageJsonPath = join(dirname, '..', '..', 'package.json');
-  const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'));
-  return packageJson.version as string;
-}
+import {
+  MockConfigProvider,
+  createDefaultConfig,
+  createDefaultConfigProvider,
+  getPackageVersion,
+} from '../fixtures/index.ts';
 
 describe('ConfigService', () => {
   describe('with valid config provider', () => {

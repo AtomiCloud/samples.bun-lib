@@ -2,10 +2,6 @@
  * Unit tests for test fixtures
  */
 
-import { readFileSync } from 'node:fs';
-import { join } from 'node:path';
-import { fileURLToPath } from 'node:url';
-
 import { describe, expect, it, beforeEach } from 'bun:test';
 import {
   MockLoggerAdapter,
@@ -15,17 +11,8 @@ import {
   createDefaultConfigProvider,
   createMockLogger,
   createMockCache,
+  getPackageVersion,
 } from '../fixtures/index.ts';
-
-/**
- * Get the library version from package.json for test consistency
- */
-function getPackageVersion(): string {
-  const dirname = fileURLToPath(new URL('.', import.meta.url));
-  const packageJsonPath = join(dirname, '..', '..', 'package.json');
-  const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'));
-  return packageJson.version as string;
-}
 
 describe('MockLoggerAdapter', () => {
   let logger: MockLoggerAdapter;

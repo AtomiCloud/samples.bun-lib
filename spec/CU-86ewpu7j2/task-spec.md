@@ -286,5 +286,5 @@ Follow the existing skills in `.claude/skills/`:
 2. **Stateless OOP DI** (`/stateless-oop-di`): Stateless services with constructor injection
 3. **Error Handling** (`/error-handling`): Use Result types for fallible operations
 4. **Testing** (`/testing`): Follow the 5-level testing convention
-5. **Shell Conventions** (`/shell-conventions`): Scripts use `set -eou pipefail`
+5. **Shell Conventions** (`/shell-conventions`): Scripts use `set -euo pipefail`
 6. **Taskfile Conventions** (`/taskfile-conventions`): Include pattern for test tasks

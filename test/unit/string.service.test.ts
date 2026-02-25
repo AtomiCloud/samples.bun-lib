@@ -158,6 +158,17 @@ describe('StringService', () => {
       it('should ignore case and non-alphanumeric', () => {
         expect(service.isPalindrome('A man, a plan, a canal: Panama!')).toBe(true);
       });
+
+      it('should handle Unicode characters correctly', () => {
+        // Chinese characters - 哥哥 is a palindrome (same character repeated)
+        expect(service.isPalindrome('哥哥')).toBe(true);
+        // Japanese - トマト (tomato) is a palindrome
+        expect(service.isPalindrome('トマト')).toBe(true);
+        // Non-palindrome Unicode
+        expect(service.isPalindrome('你好')).toBe(false);
+        // Mixed Unicode with punctuation
+        expect(service.isPalindrome('A man, a plan, 日本')).toBe(false);
+      });
     });
 
     describe('countWords', () => {

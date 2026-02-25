@@ -12,8 +12,9 @@ import type { LibConfig } from '../../src/lib/structures.ts';
 
 /**
  * Get the library version from package.json for test consistency
+ * Exported for use across test files to avoid duplication
  */
-function getLibraryVersion(): string {
+export function getPackageVersion(): string {
   try {
     const dirname = fileURLToPath(new URL('.', import.meta.url));
     // Try source layout first (test/fixtures -> root)
@@ -158,7 +159,7 @@ export class MockCacheAdapter implements ICacheAdapter {
 export function createDefaultConfig(): LibConfig {
   return {
     name: '@atomicloud/samples-bun-lib',
-    version: getLibraryVersion(),
+    version: getPackageVersion(),
     description: 'Sample Bun Library Template',
   };
 }

@@ -25,7 +25,6 @@ found := slices.ContainsFunc(items, func(x T) bool { return x.Active })
 
 ```go
 // Sort ordered slices (int, float, string)
-slices.Sort(nums)
 slices.Sort(nums) // ascending
 slices.SortFunc(items, func(a, b Item) int {
     return cmp.Compare(a.Name, b.Name)
@@ -101,18 +100,19 @@ largest := slices.Max(nums)
 ### Keys, Values
 
 ```go
-// Get keys
-keys := maps.Keys(m) // Returns iterator (Go 1.23+)
+// Get keys (returns iterator in Go 1.23+)
+keys := maps.Keys(m) // iterator
 keys := []string{}
 for k := range maps.Keys(m) {
     keys = append(keys, k)
 }
 
-// Get values
-values := maps.Values(m)
+// Get values (returns iterator in Go 1.23+)
+valuesIter := maps.Values(m) // iterator
 
 // Collect to slice (Go 1.23+)
-keys := slices.Collect(maps.Keys(m))
+keysSlice := slices.Collect(maps.Keys(m))
+valuesSlice := slices.Collect(maps.Values(m))
 ```
 
 ### Clone, Copy

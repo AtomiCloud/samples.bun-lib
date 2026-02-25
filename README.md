@@ -87,7 +87,7 @@ const strings = new StringService();
 strings.process({
   text: 'hello',
   options: { uppercase: true, prefix: '>> ', suffix: ' <<' }
-}); // { success: true, data: { original: 'hello', processed: '>> HELLO <<', length: 10 } }
+}); // { success: true, data: { original: 'hello', processed: '>> HELLO <<', length: 11 } }
 
 // Utility methods
 strings.reverse('hello');           // 'olleh'

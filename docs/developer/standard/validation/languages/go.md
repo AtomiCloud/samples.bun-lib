@@ -229,8 +229,13 @@ validate.RegisterStructValidation(func(sl validator.StructLevel) {
 ```go
 err := validate.Struct(user)
 if err != nil {
-    // Type assertion
-    validationErrors := err.(validator.ValidationErrors)
+    // Safe type assertion with ok pattern
+    validationErrors, ok := err.(validator.ValidationErrors)
+    if !ok {
+        // Handle non-validation errors (e.g., invalid input type)
+        fmt.Printf("Validation error: %v\n", err)
+        return
+    }
 
     for _, e := range validationErrors {
         fmt.Printf("Field: %s\n", e.Field())
@@ -253,7 +258,13 @@ type ErrorResponse struct {
 func FormatErrors(err error) []ErrorResponse {
     var errors []ErrorResponse
 
-    for _, e := range err.(validator.ValidationErrors) {
+    // Safe type assertion with ok pattern
+    validationErrors, ok := err.(validator.ValidationErrors)
+    if !ok {
+        return errors
+    }
+
+    for _, e := range validationErrors {
         errors = append(errors, ErrorResponse{
             Field:   strings.ToLower(e.Field()),
             Message: getErrorMessage(e),

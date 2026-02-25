@@ -197,9 +197,15 @@ export class StringService {
 
   /**
    * Check if a string is a palindrome
+   * Handles Unicode characters by normalizing and comparing grapheme clusters
    */
   public isPalindrome(text: string): boolean {
-    const normalized = text.toLowerCase().replace(/[^a-z0-9]/g, '');
+    // Normalize the string: lowercase and remove non-alphanumeric characters
+    // Using Unicode-aware pattern to preserve non-ASCII alphanumeric characters
+    const normalized = text
+      .toLowerCase()
+      .normalize('NFC')
+      .replace(/[^\p{L}\p{N}]/gu, '');
     return normalized === this.reverse(normalized);
   }
 
@@ -271,9 +277,16 @@ export class ConfigService {
 
   /**
    * Check if configuration is valid
+   * Validates both provider status and config structure
    */
   public isConfigValid(): boolean {
-    return this.configProvider.isValid();
+    // First check if the provider itself is valid
+    if (!this.configProvider.isValid()) {
+      return false;
+    }
+    // Then validate the actual config structure
+    const config = this.configProvider.getConfig();
+    return this.isValidConfig(config);
   }
 }
 

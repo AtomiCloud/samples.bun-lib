@@ -26,7 +26,7 @@ const now = Temporal.Now.instant();
 const instant = Temporal.Instant.from('2024-03-15T14:30:00Z');
 
 // From epoch milliseconds
-const instant = Temporal.Instant.fromEpochMilliseconds(1710510600000);
+const fromEpoch = Temporal.Instant.fromEpochMilliseconds(1710510600000);
 
 // Convert to string
 instant.toString(); // '2024-03-15T14:30:00Z'
@@ -177,9 +177,13 @@ console.log(displayTime.toString());
 // Birthday doesn't have a time component
 const birthday = Temporal.PlainDate.from('1990-03-15');
 
-// Calculate age
+// Calculate age - until() returns a Duration with years, months, days
 const today = Temporal.Now.plainDateISO();
-const age = birthday.until(today).years;
+const duration = birthday.until(today);
+const age = duration.years; // Full years elapsed
+
+// Note: For precise age calculation, use total() for total unit count
+// const totalYears = duration.total({ unit: 'year' });
 ```
 
 ### Duration for Timeouts
@@ -210,11 +214,16 @@ const instant = Temporal.Instant.from(parsed.timestamp);
 const instant = Temporal.Now.instant();
 const tz = 'America/New_York';
 
-// Using Intl.DateTimeFormat
+// Using Intl.DateTimeFormat - convert Instant to Date for formatting
 const formatter = new Intl.DateTimeFormat('en-US', {
   timeZone: tz,
   dateStyle: 'full',
   timeStyle: 'long',
 });
-formatter.format(instant); // 'Friday, March 15, 2024 at 10:30:00 AM EDT'
+const date = new Date(instant.epochMilliseconds);
+formatter.format(date); // 'Friday, March 15, 2024 at 10:30:00 AM EDT'
+
+// Alternative: Use ZonedDateTime for timezone-aware formatting
+const zoned = instant.toZonedDateTimeISO(tz);
+const formatted = zoned.toString(); // '2024-03-15T10:30:00-04:00[America/New_York]'
 ```

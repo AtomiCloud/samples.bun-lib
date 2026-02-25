@@ -2,10 +2,6 @@
  * Unit tests for LibraryService and createLibraryService
  */
 
-import { readFileSync } from 'node:fs';
-import { join } from 'node:path';
-import { fileURLToPath } from 'node:url';
-
 import { describe, expect, it, beforeEach } from 'bun:test';
 import {
   CalculatorService,
@@ -16,17 +12,7 @@ import {
   createDefaultConfigProvider,
   DefaultConfigProvider,
 } from '../../src/lib/services.ts';
-import { createMockLogger } from '../fixtures/index.ts';
-
-/**
- * Get the library version from package.json for test consistency
- */
-function getPackageVersion(): string {
-  const dirname = fileURLToPath(new URL('.', import.meta.url));
-  const packageJsonPath = join(dirname, '..', '..', 'package.json');
-  const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'));
-  return packageJson.version as string;
-}
+import { createMockLogger, getPackageVersion } from '../fixtures/index.ts';
 
 describe('LibraryService', () => {
   let service: LibraryService;

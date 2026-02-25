@@ -80,7 +80,7 @@ var nextMonth = date.AddMonths(1);
 
 // Parsing
 var parsed = DateOnly.Parse("2024-03-15");
-var parsed = DateOnly.ParseExact("03/15/2024", "MM/dd/yyyy");
+var parsedExact = DateOnly.ParseExact("03/15/2024", "MM/dd/yyyy");
 
 // Formatting
 date.ToString("yyyy-MM-dd"); // "2024-03-15"
