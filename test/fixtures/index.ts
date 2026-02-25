@@ -3,8 +3,31 @@
  * These provide test doubles for unit testing
  */
 
+import { existsSync, readFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
 import type { ICacheAdapter, IConfigProvider, ILoggerAdapter } from '../../src/lib/interfaces.ts';
 import type { LibConfig } from '../../src/lib/structures.ts';
+
+/**
+ * Get the library version from package.json for test consistency
+ */
+function getLibraryVersion(): string {
+  try {
+    const dirname = fileURLToPath(new URL('.', import.meta.url));
+    // Try source layout first (test/fixtures -> root)
+    let packageJsonPath = join(dirname, '..', '..', 'package.json');
+    if (!existsSync(packageJsonPath)) {
+      // Fallback for bundled output
+      packageJsonPath = join(dirname, '..', 'package.json');
+    }
+    const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'));
+    return packageJson.version as string;
+  } catch {
+    return '0.0.0-development';
+  }
+}
 
 /**
  * Mock logger adapter - collects all log calls for verification
@@ -127,7 +150,7 @@ export class MockCacheAdapter implements ICacheAdapter {
 export function createDefaultConfig(): LibConfig {
   return {
     name: '@atomicloud/samples-bun-lib',
-    version: '0.1.0',
+    version: getLibraryVersion(),
     description: 'Sample Bun Library Template',
   };
 }

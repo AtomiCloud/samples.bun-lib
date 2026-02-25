@@ -3,6 +3,10 @@
  * All business logic lives here - no direct IO or side effects
  */
 
+import { existsSync, readFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
 import type { ICacheAdapter, IConfigProvider, ILoggerAdapter } from './interfaces.ts';
 import type {
   CalculatorInput,
@@ -13,6 +17,25 @@ import type {
   StringProcessInput,
   StringProcessOutput,
 } from './structures.ts';
+
+/**
+ * Get the library version from package.json
+ */
+function getLibraryVersion(): string {
+  try {
+    const dirname = fileURLToPath(new URL('.', import.meta.url));
+    // Try source layout first (src/lib -> root)
+    let packageJsonPath = join(dirname, '..', '..', 'package.json');
+    if (!existsSync(packageJsonPath)) {
+      // Fallback for bundled ESM (dist -> root)
+      packageJsonPath = join(dirname, '..', 'package.json');
+    }
+    const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'));
+    return packageJson.version as string;
+  } catch {
+    return '0.0.0-development';
+  }
+}
 
 /**
  * CalculatorService - Performs mathematical operations
@@ -239,7 +262,7 @@ export class ConfigService {
   public getDefaultConfig(): LibConfig {
     return {
       name: '@atomicloud/samples-bun-lib',
-      version: '0.1.0',
+      version: getLibraryVersion(),
       description: 'Sample Bun Library Template',
     };
   }
@@ -315,7 +338,7 @@ export class DefaultConfigProvider implements IConfigProvider {
   getConfig(): LibConfig {
     return {
       name: '@atomicloud/samples-bun-lib',
-      version: '0.1.0',
+      version: getLibraryVersion(),
       description: 'Sample Bun Library Template',
     };
   }

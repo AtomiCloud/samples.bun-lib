@@ -2,6 +2,10 @@
  * Unit tests for LibraryService and createLibraryService
  */
 
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
 import { describe, expect, it, beforeEach } from 'bun:test';
 import {
   CalculatorService,
@@ -13,6 +17,16 @@ import {
   DefaultConfigProvider,
 } from '../../src/lib/services.ts';
 import { createMockLogger, MockConfigProvider } from '../fixtures/index.ts';
+
+/**
+ * Get the library version from package.json for test consistency
+ */
+function getPackageVersion(): string {
+  const dirname = fileURLToPath(new URL('.', import.meta.url));
+  const packageJsonPath = join(dirname, '..', '..', 'package.json');
+  const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'));
+  return packageJson.version as string;
+}
 
 describe('LibraryService', () => {
   let service: LibraryService;
@@ -37,7 +51,7 @@ describe('LibraryService', () => {
 
       // Assert
       expect(info.name).toBe('@atomicloud/samples-bun-lib');
-      expect(info.version).toBe('0.1.0');
+      expect(info.version).toBe(getPackageVersion());
       expect(info.description).toBe('Sample Bun Library Template');
     });
 
@@ -156,7 +170,7 @@ describe('DefaultConfigProvider', () => {
 
       // Assert
       expect(config.name).toBe('@atomicloud/samples-bun-lib');
-      expect(config.version).toBe('0.1.0');
+      expect(config.version).toBe(getPackageVersion());
       expect(config.description).toBe('Sample Bun Library Template');
     });
   });

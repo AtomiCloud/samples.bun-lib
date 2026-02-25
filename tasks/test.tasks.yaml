@@ -7,7 +7,7 @@ tasks:
       - ./scripts/test.sh unit
 
   cover:
-    desc: 'Run full coverage'
+    desc: 'Run unit tests with coverage'
     cmds:
       - ./scripts/test.sh unit --cover
 

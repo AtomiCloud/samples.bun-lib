@@ -78,7 +78,7 @@ A new feature
 
 | Scope      | Description               | Bump    |
 | ---------- | ------------------------- | ------- |
-| default    | Release a new features    | `minor` |
+| default    | Release new features      | `minor` |
 | `breaking` | Release a breaking change | `major` |
 
 ## fix
