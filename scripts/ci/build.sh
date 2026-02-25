@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -eou pipefail
+set -euo pipefail
 
 # CI build script - builds ESM and CJS outputs
 # Run via: nix develop .#ci -c ./scripts/ci/build.sh

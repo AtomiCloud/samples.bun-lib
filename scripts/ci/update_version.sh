@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -eou pipefail
+set -euo pipefail
 
 version="$1"
 package_path="${2:-./package.json}"

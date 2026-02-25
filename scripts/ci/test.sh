@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -eou pipefail
+set -euo pipefail
 
 # CI test script with coverage and threshold check
 # Requires TEST_TYPE environment variable (unit or int)

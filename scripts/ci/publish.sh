@@ -2,7 +2,7 @@
 # shellcheck disable=SC2015
 [ "${NPM_API_KEY}" = '' ] && echo "❌ 'NPM_API_KEY' env var not set" && exit 1
 
-set -eou pipefail
+set -euo pipefail
 
 # npm publishing script using Bun
 # Requires NPM_API_KEY environment variable

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -eou pipefail
+set -euo pipefail
 
 # Semantic release script for npm publishing
 # Uses sg (Semantic Generator) to run semantic-release with npm plugins

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -eou pipefail
+set -euo pipefail
 
 # Test runner for unit and integration tests
 # Run via: ./scripts/test.sh [unit|int] [--cover] [--watch]
