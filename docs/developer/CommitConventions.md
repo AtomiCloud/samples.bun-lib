@@ -137,9 +137,9 @@ Changes that do not affect the meaning of the code (white-space, formatting, mis
 | example         | style: add missing semi colon                                           |
 | example applied | when this commit is applied, it will _style_ **add missing semi colon** |
 
-| Scope   | Description                   | Bump    |
-| ------- | ----------------------------- | ------- |
-| default | Generic improvement statement | `patch` |
+| Scope   | Description                                      | Bump    |
+| ------- | ------------------------------------------------ | ------- |
+| default | Code style/formatting changes (no logic changes) | `patch` |
 
 ## test
 

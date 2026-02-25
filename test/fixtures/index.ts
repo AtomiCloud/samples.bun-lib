@@ -102,6 +102,14 @@ export class MockCacheAdapter implements ICacheAdapter {
     return entry.value as T;
   }
 
+  /**
+   * Set a cache value with optional TTL
+   * @param key - Cache key
+   * @param value - Value to cache
+   * @param ttlMs - Time-to-live in milliseconds. Note: ttlMs=0 is treated as "no TTL"
+   *                 (never expires) due to truthiness check. Pass undefined for no expiry,
+   *                 or use a small positive value for immediate expiration behavior.
+   */
   set<T>(key: string, value: T, ttlMs?: number): void {
     this.cache.set(key, {
       value,

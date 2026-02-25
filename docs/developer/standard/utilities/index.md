@@ -36,7 +36,7 @@ const grouped = groupBy(items, item => item.category);
 
 ### Reduce Tests
 
-Utility libraries are battle-tested. Don't retest library internals; still write tests for your business logic and integration behavior.
+Utility libraries are battle-tested. You don't need to test utility library internals—but still write tests for your business logic and integration behavior.
 
 You don't need to test that the library correctly implements:
 
@@ -132,7 +132,7 @@ Function utilities.
 
 ### TypeScript: Lodash
 
-Use Lodash for operations not covered by native array methods.
+Use Lodash for operations not covered by native array methods. For tree-shaking support, use `lodash-es` for ESM bundlers, or cherry-pick individual functions from `lodash`.
 
 ```typescript
 // Native is sufficient
@@ -141,7 +141,12 @@ items.map(x => x.name);
 items.reduce((acc, x) => acc + x.value, 0);
 
 // Lodash for more complex operations
-import { groupBy, sortBy, uniqBy, merge } from 'lodash';
+// Option 1: lodash-es (recommended for ESM bundlers)
+import { groupBy, sortBy, uniqBy, merge } from 'lodash-es';
+
+// Option 2: Cherry-pick from lodash (CJS-compatible tree-shaking)
+import groupBy from 'lodash/groupBy';
+import sortBy from 'lodash/sortBy';
 ```
 
 ### C#: LINQ

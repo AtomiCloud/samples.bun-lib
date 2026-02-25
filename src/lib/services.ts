@@ -7,7 +7,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import type { ICacheAdapter, IConfigProvider, ILoggerAdapter } from './interfaces.ts';
+import type { IConfigProvider, ILoggerAdapter } from './interfaces.ts';
 import type {
   CalculatorInput,
   CalculatorOutput,
@@ -139,11 +139,7 @@ export class CalculatorService {
  * Stateless methods - all state is passed as parameters
  */
 export class StringService {
-  constructor(
-    private readonly logger?: ILoggerAdapter,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    private readonly cache?: ICacheAdapter, // Reserved for future caching support
-  ) {}
+  constructor(private readonly logger?: ILoggerAdapter) {}
 
   /**
    * Process a string according to options
@@ -219,8 +215,14 @@ export class StringService {
 
   /**
    * Truncate a string to a maximum length
+   * @param text - The text to truncate
+   * @param maxLength - Maximum length (must be non-negative; negative values return empty string)
+   * @param suffix - Suffix to append when truncated (default: '...')
    */
   public truncate(text: string, maxLength: number, suffix = '...'): string {
+    if (maxLength < 0) {
+      return '';
+    }
     if (text.length <= maxLength) {
       return text;
     }

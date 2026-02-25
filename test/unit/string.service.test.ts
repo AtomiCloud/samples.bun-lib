@@ -4,7 +4,7 @@
 
 import { describe, expect, it, beforeEach } from 'bun:test';
 import { StringService } from '../../src/lib/services.ts';
-import { createMockLogger, createMockCache } from '../fixtures/index.ts';
+import { createMockLogger } from '../fixtures/index.ts';
 
 describe('StringService', () => {
   describe('without dependencies', () => {
@@ -204,6 +204,15 @@ describe('StringService', () => {
         expect(service.truncate('hello world', 3, '...')).toBe('hel');
         expect(service.truncate('hello world', 2, '...')).toBe('he');
       });
+
+      it('should return empty string for negative maxLength', () => {
+        expect(service.truncate('hello world', -1)).toBe('');
+        expect(service.truncate('hello world', -100)).toBe('');
+      });
+
+      it('should return empty string for zero maxLength', () => {
+        expect(service.truncate('hello world', 0)).toBe('');
+      });
     });
   });
 
@@ -227,19 +236,6 @@ describe('StringService', () => {
       const debugCalls = logger.getCallsForLevel('debug');
       expect(debugCalls.length).toBe(1);
       expect(debugCalls[0].message).toBe('Processed string');
-    });
-  });
-
-  describe('with cache', () => {
-    it('should accept cache dependency (reserved for future use)', () => {
-      // Arrange
-      const cache = createMockCache();
-      const service = new StringService(undefined, cache);
-
-      // Act & Assert - should not throw
-      expect(() => service.process({ text: 'test' })).not.toThrow();
-      // Note: Cache is currently not used - reserved for future caching support
-      expect(cache.size()).toBe(0);
     });
   });
 });

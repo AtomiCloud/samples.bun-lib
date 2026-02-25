@@ -210,7 +210,7 @@ All code must be checked against ALL skills in `.claude/skills/` and ensure rule
 
 ### Reference: Project Patterns to Port
 
-```
+```text
 boron/                              →  samples-bun-lib/
 ├── src/lib/                        →  src/lib/
 │   ├── structures.ts               →  structures.ts (pure data)

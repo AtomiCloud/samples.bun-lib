@@ -10,7 +10,7 @@ A production-ready Bun (TypeScript) library template demonstrating best practice
 - **Pure Data Structures** - Immutable interfaces with no behavior
 - **Interface Contracts** - Dependency injection contracts for testability
 - **Stateless Services** - Business logic with constructor injection
-- **100% Test Coverage** - Unit tests with comprehensive coverage
+- **100% Unit Test Coverage** - Unit tests with comprehensive coverage
 - **Dual Module Support** - ESM and CommonJS outputs
 - **TypeScript Declarations** - Full type support out of the box
 - **Source Maps** - For better debugging experience

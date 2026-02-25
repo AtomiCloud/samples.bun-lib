@@ -16,7 +16,7 @@ import {
   createDefaultConfigProvider,
   DefaultConfigProvider,
 } from '../../src/lib/services.ts';
-import { createMockLogger, MockConfigProvider } from '../fixtures/index.ts';
+import { createMockLogger } from '../fixtures/index.ts';
 
 /**
  * Get the library version from package.json for test consistency
