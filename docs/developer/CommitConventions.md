@@ -7,7 +7,7 @@ for our commits.
 
 Commit message will be in the format:
 
-```
+```text
 type(scope): title
 
 body
@@ -27,11 +27,11 @@ This page will document the types and scopes used.
 | [fix](#fix)           | A bug fix                                                                                              |
 | [perf](#perf)         | A code change that improves performance                                                                |
 | [refactor](#refactor) | A code change that neither fixes a bug nor adds a feature                                              |
-| [style](#style)       | Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc) |
+| [style](#style)       | Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc.) |
 | [test](#test)         | Adding missing tests or correcting existing tests                                                      |
 | [amend](#amend)       | Any amendment, uncategorized, or small mistakes (like typos)                                           |
 | [dep](#dep)           | Dependency updates from upstream                                                                       |
-| [chore](#chore)       | Chores like test, attempts, typos, etc                                                                 |
+| [chore](#chore)       | Chores like test, attempts, typos, etc.                                                                |
 
 ## build
 
@@ -128,7 +128,7 @@ A code change that neither fixes a bug nor adds a feature
 
 ## style
 
-Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)
+Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc.)
 
 | **V.A.E**       | V.A.E values                                                            |
 | --------------- | ----------------------------------------------------------------------- |
@@ -177,7 +177,7 @@ Dependency updates from upstream
 
 ## chore
 
-Chores like test, attempts, typos, etc
+Chores like test, attempts, typos, etc.
 
 | Scope   | Description | Bump  |
 | ------- | ----------- | ----- |
