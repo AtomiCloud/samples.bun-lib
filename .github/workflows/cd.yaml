@@ -72,6 +72,19 @@ jobs:
                 exit 1
               fi
 
+              # Check if CI was cancelled
+              CANCELLED_ID=$(gh run list \
+                --workflow=ci.yaml \
+                --commit="$COMMIT_SHA" \
+                --status=cancelled \
+                --json databaseId \
+                --jq '.[0].databaseId // empty')
+
+              if [[ -n "$CANCELLED_ID" ]]; then
+                echo "❌ CI run $CANCELLED_ID was cancelled for commit $COMMIT_SHA"
+                exit 1
+              fi
+
               echo "   No CI run found yet, waiting..."
             fi
 

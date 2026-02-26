@@ -5,12 +5,14 @@ set -euo pipefail
 # Run via: ./scripts/test.sh [unit|int] [--cover] [--watch]
 
 # Handle test type
-TEST_TYPE=${1:-unit}
-if [[ $TEST_TYPE != "unit" && $TEST_TYPE != "int" ]]; then
-  echo "❌ Invalid test type: $TEST_TYPE. Must be 'unit' or 'int'"
+TEST_TYPE="unit"
+if [[ ${1:-} == "unit" || ${1:-} == "int" ]]; then
+  TEST_TYPE="$1"
+  shift
+elif [[ -n ${1:-} && ${1:-} != --* ]]; then
+  echo "❌ Invalid test type: ${1}. Must be 'unit' or 'int'"
   exit 1
 fi
-(($# > 0)) && shift
 
 # Test configuration
 COVER=false
