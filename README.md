@@ -139,6 +139,8 @@ const library = new LibraryService(calculator, stringService, config, logger);
 
 ## API Documentation
 
+For detailed API documentation, see the [API Reference](./docs/api.md) or explore the [TypeScript declarations](./dist/index.d.ts).
+
 ### Structures
 
 | Type | Description |
@@ -216,6 +218,8 @@ test/
     index.ts         # Mock implementations
   unit/
     *.test.ts        # Unit tests
+  int/
+    *.test.ts        # Integration tests
 
 scripts/
   test.sh            # Test runner

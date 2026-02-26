@@ -22,12 +22,9 @@
   "knip": {
     "ignore": [
       "test/**",
-      "dist/**",
-      "build.config.ts",
-      "coverage/**"
+      "build.config.ts"
     ],
     "ignoreDependencies": [
-      "@types/bun",
       "@semantic-release/changelog",
       "@semantic-release/commit-analyzer",
       "@semantic-release/git",

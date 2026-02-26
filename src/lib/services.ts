@@ -1,6 +1,10 @@
 /**
  * Pure service classes with stateless methods and dependency injection
- * All business logic lives here - no direct IO or side effects
+ * All business logic lives here.
+ *
+ * Note: getLibraryVersion() uses filesystem I/O to read package.json at runtime
+ * for dynamic version detection. This is a pragmatic choice for accurate versioning
+ * across source and bundled distributions.
  */
 
 import { existsSync, readFileSync } from 'node:fs';

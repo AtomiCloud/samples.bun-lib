@@ -8,6 +8,6 @@ echo "🔧 Cleaning up git hooks..."
 rm -rf .git/hooks/* 2>/dev/null || true
 
 echo "🚀 Running semantic release..."
-sg release -i npm || true
+sg release -i npm
 
 echo "✅ Release complete!"
