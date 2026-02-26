@@ -5,12 +5,12 @@ let
       with atomi;
       rec {
         /*
-          
+
           */
 
         inherit
           /*
-          
+
           */
           atomiutils
           sg
@@ -37,6 +37,9 @@ let
 
           # language
           bun
+
+          # test coverage
+          lcov
           ;
       }
     );

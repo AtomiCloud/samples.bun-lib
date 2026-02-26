@@ -26,6 +26,11 @@ plugins:
     version: 6.0.3
     config:
       changelogFile: Changelog.md
+  - module: '@semantic-release/npm'
+    version: 12.0.1
+    config:
+      npmPublish: true
+      access: public
   - module: '@semantic-release/git'
     version: 10.0.1
     config:
@@ -33,6 +38,7 @@ plugins:
       assets:
         - Changelog.md
         - CommitConventions.md
+        - package.json
   - module: '@semantic-release/github'
     version: 10.3.5
 
@@ -72,7 +78,7 @@ types:
       example: 'feat: new withdraw api for rapid'
     scopes:
       default:
-        desc: Release a new features
+        desc: Release new features
         release: minor
       breaking:
         desc: Release a breaking change
@@ -117,7 +123,7 @@ types:
       example: 'style: add missing semi colon'
     scopes:
       default:
-        desc: Generic improvement statement
+        desc: Code style/formatting changes (no logic changes)
         release: patch
   - type: test
     section: 🧪 Tests 🧪

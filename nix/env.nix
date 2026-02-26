@@ -11,13 +11,14 @@ with packages;
   ];
 
   /*
-    
+
   */
 
 
   main = [
     bun
     infisical
+    lcov
   ];
 
   lint = [
@@ -28,7 +29,7 @@ with packages;
     sg
 
     /*
-      
+
     */
   ];
 

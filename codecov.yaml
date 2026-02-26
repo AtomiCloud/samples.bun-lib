@@ -1,0 +1,44 @@
+# Codecov configuration for bun-lib
+# https://docs.codecov.com/docs/codecov-yaml
+
+coverage:
+  status:
+    project:
+      default:
+        target: auto
+        threshold: 0%
+      unit:
+        target: 100%
+        threshold: 0%
+        flags:
+          - unit
+        if_ci_failed: error
+      integration:
+        target: 80%
+        threshold: 0%
+        flags:
+          - int
+        if_ci_failed: error
+    patch:
+      default:
+        target: auto
+        threshold: 0%
+
+comment:
+  layout: 'header, diff, flags, files, footer'
+  behavior: default
+  require_changes: false
+  require_base: false
+  require_head: true
+
+github_checks:
+  annotations: true
+
+flag_management:
+  default_rules:
+    carryforward: true
+    statuses:
+      - type: project
+        target: auto
+      - type: patch
+        target: auto

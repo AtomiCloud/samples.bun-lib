@@ -1,4 +1,10 @@
-.kagent/
 node_modules/
 .npm/
+dist/
+coverage/
 .pre-commit-config.yaml
+.DS_Store
+.idea
+.vscode
+
+.kagent/

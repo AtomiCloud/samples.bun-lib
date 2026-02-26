@@ -1,12 +1,71 @@
 {
-  "name": "samples-bun-lib",
+  "name": "@atomicloud/samples-bun-lib",
+  "version": "9.9.9",
+  "description": "Sample Bun Library Template - A production-ready TypeScript library template",
   "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
   "scripts": {
     "knip": "knip"
   },
+  "knip": {
+    "ignore": [
+      "test/**",
+      "build.config.ts"
+    ],
+    "ignoreBinaries": [
+      "knip"
+    ],
+    "ignoreDependencies": [
+      "@semantic-release/changelog",
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/git",
+      "@semantic-release/github",
+      "@semantic-release/npm",
+      "@semantic-release/release-notes-generator",
+      "conventional-changelog-conventionalcommits",
+      "semantic-release"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AtomiCloud/samples.bun-lib.git"
+  },
+  "keywords": [
+    "bun",
+    "typescript",
+    "library",
+    "template",
+    "atomicloud"
+  ],
+  "author": "AtomiCloud",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AtomiCloud/samples.bun-lib/issues"
+  },
+  "homepage": "https://github.com/AtomiCloud/samples.bun-lib#readme",
   "devDependencies": {
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/commit-analyzer": "^12.0.0",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^10.3.5",
+    "@semantic-release/npm": "^12.0.1",
+    "@semantic-release/release-notes-generator": "^12.0.0",
     "@types/bun": "latest",
-    "knip": "^5.83.0"
+    "conventional-changelog-conventionalcommits": "^7.0.2",
+    "knip": "^5.83.0",
+    "semantic-release": "^23.0.1"
   },
   "peerDependencies": {
     "typescript": "^5"
