@@ -227,22 +227,23 @@ validate.RegisterStructValidation(func(sl validator.StructLevel) {
 ### Parse Validation Errors
 
 ```go
+import "errors"
+
 err := validate.Struct(user)
 if err != nil {
-    // Safe type assertion with ok pattern
-    validationErrors, ok := err.(validator.ValidationErrors)
-    if !ok {
-        // Handle non-validation errors (e.g., invalid input type)
+    // Use errors.As to safely handle both error types
+    var validationErrors validator.ValidationErrors
+    if errors.As(err, &validationErrors) {
+        for _, e := range validationErrors {
+            fmt.Printf("Field: %s\n", e.Field())
+            fmt.Printf("Tag: %s\n", e.Tag())
+            fmt.Printf("Param: %s\n", e.Param())
+            fmt.Printf("Value: %v\n", e.Value())
+            fmt.Printf("Error: %s\n", e.Error())
+        }
+    } else {
+        // Handle *validator.InvalidValidationError or other errors
         fmt.Printf("Validation error: %v\n", err)
-        return
-    }
-
-    for _, e := range validationErrors {
-        fmt.Printf("Field: %s\n", e.Field())
-        fmt.Printf("Tag: %s\n", e.Tag())
-        fmt.Printf("Param: %s\n", e.Param())
-        fmt.Printf("Value: %v\n", e.Value())
-        fmt.Printf("Error: %s\n", e.Error())
     }
 }
 ```
@@ -256,22 +257,25 @@ type ErrorResponse struct {
 }
 
 func FormatErrors(err error) []ErrorResponse {
-    var errors []ErrorResponse
+    var errs []ErrorResponse
 
-    // Safe type assertion with ok pattern
-    validationErrors, ok := err.(validator.ValidationErrors)
-    if !ok {
-        return errors
+    var validationErrors validator.ValidationErrors
+    if !errors.As(err, &validationErrors) {
+        // Not a validation error - return generic error
+        return []ErrorResponse{{
+            Field:   "",
+            Message: err.Error(),
+        }}
     }
 
     for _, e := range validationErrors {
-        errors = append(errors, ErrorResponse{
+        errs = append(errs, ErrorResponse{
             Field:   strings.ToLower(e.Field()),
             Message: getErrorMessage(e),
         })
     }
 
-    return errors
+    return errs
 }
 
 func getErrorMessage(e validator.FieldError) string {
@@ -322,9 +326,13 @@ func (h *Handler) CreateUser(w http.ResponseWriter, r *http.Request) {
 ### Middleware Validation
 
 ```go
-func ValidateRequest(validate *validator.Validate, req interface{}) mux.MiddlewareFunc {
+// ValidateRequest accepts a factory function to create a fresh struct per request
+func ValidateRequest(validate *validator.Validate, reqFactory func() interface{}) mux.MiddlewareFunc {
     return func(next http.Handler) http.Handler {
         return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+            // Create a fresh instance for each request
+            req := reqFactory()
+
             if err := json.NewDecoder(r.Body).Decode(req); err != nil {
                 respondWithError(w, http.StatusBadRequest, "Invalid JSON")
                 return
@@ -341,6 +349,9 @@ func ValidateRequest(validate *validator.Validate, req interface{}) mux.Middlewa
         })
     }
 }
+
+// Usage:
+// router.Use(ValidateRequest(validate, func() interface{} { return &CreateUserRequest{} }))
 ```
 
 ### Gin Integration

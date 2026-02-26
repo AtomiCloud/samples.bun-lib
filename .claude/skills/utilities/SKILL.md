@@ -36,14 +36,13 @@ invocation:
 | Sort      | `sortBy`            | `OrderBy`        | `slices.SortFunc`   |
 | Unique    | `uniq`              | `Distinct`       | `lo.Uniq`           |
 | Flatten   | `flatten`           | `SelectMany`     | `lo.Flatten`        |
-| Chunk     | `chunk`             | `Chunk` ‡        | `lo.Chunk`          |
+| Chunk     | `chunk`             | `Chunk`          | `lo.Chunk`          |
 | Contains  | `includes`          | `Contains`       | `slices.Contains`   |
 | Keys      | `keys`              | `dict.Keys` †    | `maps.Keys`         |
 | Values    | `values`            | `dict.Values` †  | `maps.Values`       |
 | Pick/Omit | `pick`/`omit`       | -                | `lo.Pick`/`lo.Omit` |
 
 † Dictionary properties, not LINQ operators
-‡ `Chunk` requires .NET 6+
 
 ## Core Principles
 
