@@ -21,10 +21,30 @@ echo "✅ Declarations generated!"
 
 # Verify outputs
 echo "🔍 Verifying build outputs..."
-test -f dist/index.js && echo "  ✓ dist/index.js (ESM)"
-test -f dist/index.cjs && echo "  ✓ dist/index.cjs (CJS)"
-test -f dist/index.d.ts && echo "  ✓ dist/index.d.ts (Types)"
-test -f dist/index.js.map && echo "  ✓ dist/index.js.map (Sourcemap)"
-test -f dist/index.cjs.map && echo "  ✓ dist/index.cjs.map (Sourcemap)"
+test -f dist/index.js || {
+  echo "  ✗ dist/index.js (ESM) MISSING"
+  exit 1
+}
+echo "  ✓ dist/index.js (ESM)"
+test -f dist/index.cjs || {
+  echo "  ✗ dist/index.cjs (CJS) MISSING"
+  exit 1
+}
+echo "  ✓ dist/index.cjs (CJS)"
+test -f dist/index.d.ts || {
+  echo "  ✗ dist/index.d.ts (Types) MISSING"
+  exit 1
+}
+echo "  ✓ dist/index.d.ts (Types)"
+test -f dist/index.js.map || {
+  echo "  ✗ dist/index.js.map (Sourcemap) MISSING"
+  exit 1
+}
+echo "  ✓ dist/index.js.map (Sourcemap)"
+test -f dist/index.cjs.map || {
+  echo "  ✗ dist/index.cjs.map (Sourcemap) MISSING"
+  exit 1
+}
+echo "  ✓ dist/index.cjs.map (Sourcemap)"
 
 echo "✅ All build outputs verified!"

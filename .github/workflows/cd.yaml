@@ -40,7 +40,7 @@ jobs:
               --commit="$COMMIT_SHA" \
               --status=success \
               --json databaseId \
-              --jq '.[0].databaseId')
+              --jq '.[0].databaseId // empty')
 
             if [[ -n "$RUN_ID" ]]; then
               echo "run_id=$RUN_ID" >> "$GITHUB_OUTPUT"
@@ -54,7 +54,7 @@ jobs:
               --commit="$COMMIT_SHA" \
               --status=in_progress \
               --json databaseId \
-              --jq '.[0].databaseId')
+              --jq '.[0].databaseId // empty')
 
             if [[ -n "$RUNNING_ID" ]]; then
               echo "   CI is still running (run ID: $RUNNING_ID), waiting..."
@@ -65,7 +65,7 @@ jobs:
                 --commit="$COMMIT_SHA" \
                 --status=failure \
                 --json databaseId,conclusion \
-                --jq '.[0].databaseId')
+                --jq '.[0].databaseId // empty')
 
               if [[ -n "$FAILED_ID" ]]; then
                 echo "❌ CI run $FAILED_ID failed for commit $COMMIT_SHA"

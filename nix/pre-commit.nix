@@ -86,14 +86,10 @@ pre-commit-lib.run {
       enable = true;
       name = "Deadcode Knip";
       description = "Detect unused files, dependencies, and exports";
-      entry = "${packages.bun}/bin/bun knip";
+      entry = "${packages.bun}/bin/bunx knip";
       language = "system";
       pass_filenames = false;
     };
-
-    /*
-      
-    */
 
   };
 }
