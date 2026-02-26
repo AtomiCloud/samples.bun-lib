@@ -14,9 +14,9 @@ jobs:
 
   test-unit:
     name: Unit Tests
+    needs: [precommit]
     uses: ./.github/workflows/⚡reusable-test.yaml
     secrets: inherit
-    needs: [precommit]
     with:
       atomi_platform: samples
       atomi_service: bun-lib
@@ -25,9 +25,9 @@ jobs:
 
   test-int:
     name: Integration Tests
+    needs: [precommit]
     uses: ./.github/workflows/⚡reusable-test.yaml
     secrets: inherit
-    needs: [precommit]
     with:
       atomi_platform: samples
       atomi_service: bun-lib
@@ -36,9 +36,9 @@ jobs:
 
   build:
     name: Build Library
+    needs: [precommit, test-unit, test-int]
     uses: ./.github/workflows/⚡reusable-build.yaml
     secrets: inherit
-    needs: [precommit, test-unit, test-int]
     with:
       atomi_platform: samples
       atomi_service: bun-lib

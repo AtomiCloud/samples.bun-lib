@@ -1,14 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# install dependencies
-echo "⬇️ Installing Dependencies..."
-#
-#
-#
-bun install
-#
-echo "✅ Done!"
+# CI pre-commit script
+# Run via: nix develop .#ci -c ./scripts/ci/pre-commit.sh
+# Nix environment provides all necessary dependencies
 
 # run precommit
 echo "🏃‍➡️ Running Pre-Commit..."

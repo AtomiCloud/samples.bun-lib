@@ -4,10 +4,6 @@ set -euo pipefail
 # CI build script - builds ESM and CJS outputs
 # Run via: nix develop .#ci -c ./scripts/ci/build.sh
 
-echo "⬇️ Installing Dependencies..."
-bun install --frozen-lockfile
-echo "✅ Done!"
-
 echo "🔨 Building library (ESM + CJS)..."
 
 # Clean previous build

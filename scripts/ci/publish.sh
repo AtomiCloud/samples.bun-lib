@@ -9,6 +9,7 @@ fi
 
 # npm publishing script using Bun
 # Requires NPM_API_KEY environment variable
+# Set SKIP_BUILD=true to skip building (use pre-built artifacts)
 
 echo "📦 Installing dependencies"
 bun install --frozen-lockfile
@@ -23,10 +24,14 @@ chmod 600 .npmrc
 trap 'rm -f .npmrc' EXIT
 echo "✅ .npmrc generated!"
 
-# Build package
-echo "🔨 Building package"
-./scripts/ci/build.sh
-echo "✅ Package built"
+# Build package (skip if SKIP_BUILD is set - e.g., when using pre-built artifacts from CI)
+if [[ ${SKIP_BUILD:-} == 'true' ]]; then
+  echo "⏭️ Skipping build (using pre-built artifacts)"
+else
+  echo "🔨 Building package"
+  ./scripts/ci/build.sh
+  echo "✅ Package built"
+fi
 
 echo "📦 Publishing to npm"
 bun publish --access public --no-git-checks

@@ -28,8 +28,3 @@ tasks:
     desc: 'Find code only used by tests or not used at all (requires verification)'
     cmds:
       - bun knip --include classMembers,types
-
-  test:
-    desc: 'Run all tests (unit + integration)'
-    cmds:
-      - task: test:test

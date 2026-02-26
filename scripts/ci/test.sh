@@ -17,10 +17,6 @@ if [[ -z ${COVERAGE_TARGET:-} ]]; then
   exit 1
 fi
 
-echo "⬇️ Installing Dependencies..."
-bun install --frozen-lockfile
-echo "✅ Done!"
-
 echo "🧪 Running tests with coverage ($TEST_TYPE)..."
 ./scripts/test.sh "$TEST_TYPE" --cover
 echo "✅ Tests passed"

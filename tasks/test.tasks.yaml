@@ -1,6 +1,11 @@
 version: '3'
 
 tasks:
+  default:
+    desc: 'Run all tests (unit)'
+    cmds:
+      - ./scripts/test.sh unit
+
   test:
     desc: 'Run all tests (unit)'
     cmds:
