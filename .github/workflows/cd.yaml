@@ -4,12 +4,105 @@ on:
   push:
     tags:
       - 'v*.*.*'
+
 jobs:
-  #
-  placeholder:
-    name: Placeholder CD
-    runs-on: ubuntu-latest
+  publish:
+    name: Publish to npm
+    runs-on:
+      - nscloud-ubuntu-22.04-amd64-4x8-with-cache
+      - nscloud-cache-size-50gb
+      - nscloud-cache-tag-samples-bun-lib-nix-store-cache
     steps:
-      - name: Placeholder Step
-        run: echo "Placeholder step ${{ github.ref_name }}"
-#
+      - uses: actions/checkout@v4
+
+      - uses: AtomiCloud/actions.setup-nix@v2
+
+      - uses: AtomiCloud/actions.cache-bun@v1
+
+      - name: Wait for CI and get run ID
+        id: get-ci-run
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          COMMIT_SHA="${{ github.sha }}"
+          MAX_ATTEMPTS=60  # 60 attempts * 30s = 30 minutes max wait
+          ATTEMPT=0
+
+          echo "⏳ Waiting for CI to complete for commit $COMMIT_SHA..."
+
+          while [[ $ATTEMPT -lt $MAX_ATTEMPTS ]]; do
+            ATTEMPT=$((ATTEMPT + 1))
+            echo "Attempt $ATTEMPT/$MAX_ATTEMPTS..."
+
+            # Check for successful CI run
+            RUN_ID=$(gh run list \
+              --workflow=ci.yaml \
+              --commit="$COMMIT_SHA" \
+              --status=success \
+              --json databaseId \
+              --jq '.[0].databaseId')
+
+            if [[ -n "$RUN_ID" ]]; then
+              echo "run_id=$RUN_ID" >> "$GITHUB_OUTPUT"
+              echo "✅ Found successful CI run ID: $RUN_ID"
+              exit 0
+            fi
+
+            # Check if CI is still running (not failed yet)
+            RUNNING_ID=$(gh run list \
+              --workflow=ci.yaml \
+              --commit="$COMMIT_SHA" \
+              --status=in_progress \
+              --json databaseId \
+              --jq '.[0].databaseId')
+
+            if [[ -n "$RUNNING_ID" ]]; then
+              echo "   CI is still running (run ID: $RUNNING_ID), waiting..."
+            else
+              # Check if CI failed
+              FAILED_ID=$(gh run list \
+                --workflow=ci.yaml \
+                --commit="$COMMIT_SHA" \
+                --status=failure \
+                --json databaseId,conclusion \
+                --jq '.[0].databaseId')
+
+              if [[ -n "$FAILED_ID" ]]; then
+                echo "❌ CI run $FAILED_ID failed for commit $COMMIT_SHA"
+                exit 1
+              fi
+
+              echo "   No CI run found yet, waiting..."
+            fi
+
+            sleep 30
+          done
+
+          echo "❌ Timed out waiting for CI to complete after $MAX_ATTEMPTS attempts"
+          exit 1
+
+      - name: Download build artifact from CI
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+          run-id: ${{ steps.get-ci-run.outputs.run_id }}
+          github-token: ${{ github.token }}
+
+      - name: Verify downloaded artifact
+        run: |
+          set -e
+          echo "🔍 Verifying downloaded artifacts..."
+          test -f dist/index.js || { echo "  ✗ dist/index.js (ESM) MISSING"; exit 1; }
+          echo "  ✓ dist/index.js (ESM)"
+          test -f dist/index.cjs || { echo "  ✗ dist/index.cjs (CJS) MISSING"; exit 1; }
+          echo "  ✓ dist/index.cjs (CJS)"
+          test -f dist/index.d.ts || { echo "  ✗ dist/index.d.ts (Types) MISSING"; exit 1; }
+          echo "  ✓ dist/index.d.ts (Types)"
+          echo "✅ All artifacts verified!"
+
+      - name: Publish to npm
+        env:
+          NPM_API_KEY: ${{ secrets.NPM_API_KEY }}
+          SKIP_BUILD: 'true'
+        run: nix develop .#ci -c './scripts/ci/publish.sh'
