@@ -24,6 +24,9 @@
       "test/**",
       "build.config.ts"
     ],
+    "ignoreBinaries": [
+      "knip"
+    ],
     "ignoreDependencies": [
       "@semantic-release/changelog",
       "@semantic-release/commit-analyzer",

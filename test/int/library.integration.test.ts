@@ -9,7 +9,6 @@ import {
   createDefaultConfigProvider,
   CalculatorService,
   StringService,
-  ConfigService,
   type LibraryService,
 } from '../../src/lib/services.ts';
 import { createMockLogger } from '../fixtures/index.ts';
